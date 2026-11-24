@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON Data Display</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js">
+    </script>
+</head>
+<body>
+
+    <h2>JSON Data Using Fetch and jQuery</h2>
+
+    <button onclick="loadUsingFetch()">Load Using Fetch</button>
+
+    <button onclick="loadUsingJQuery()">Load Using jQuery</button>
+
+    <div id="output"></div>
+
+    <script>
+        const apiURL =
+            "https://jsonplaceholder.typicode.com/users";
+
+        // Fetch method
+        function loadUsingFetch() {
+
+            fetch(apiURL)
+
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network error");
+                    }
+
+                    return response.json();
+                })
+
+                .then(data => {
+                    displayData(data);
+                })
+
+                .catch(error => {
+                    document.getElementById("output").textContent =
+                        "Error: " + error.message;
+                });
+        }
+
+        // jQuery method
+        function loadUsingJQuery() {
+
+            $.getJSON(apiURL, function(data) {
+                displayData(data);
+
+            }).fail(function() {
+                document.getElementById("output").textContent =
+                    "Error loading JSON data.";
+            });
+        }
+
+        // Display data in table
+        function displayData(data) {
+
+            let table = `
+                <table border="1" cellpadding="8">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>City</th>
+                    </tr>
+            `;
+
+            data.forEach(function(user) {
+
+                table += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.address.city}</td>
+                    </tr>
+                `;
+            });
+
+            table += "</table>";
+
+            document.getElementById("output").innerHTML = table;
+        }
+    </script>
+
+</body>
+</html>
