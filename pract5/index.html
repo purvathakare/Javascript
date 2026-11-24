@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+
+    <h2>Shopping Cart Calculator</h2>
+
+    <input id="productName" placeholder="Product Name"><br><br>
+    <input type="number" id="price" placeholder="Price"><br><br>
+    <input type="number" id="quantity" placeholder="Quantity"><br><br>
+
+    <button onclick="addProduct()">Add to Cart</button>
+    <button onclick="calculateTotal()">Calculate Total</button>
+
+    <h3>Cart Items</h3>
+    <div id="cartItems"></div>
+
+    <h3 id="result"></h3>
+
+    <script>
+        let cart = [];
+
+        function addProduct() {
+            let name =
+                document.getElementById("productName").value.trim();
+
+            let price =
+                Number(document.getElementById("price").value);
+
+            let quantity =
+                Number(document.getElementById("quantity").value);
+
+            if (name === "" || price <= 0 || quantity <= 0) {
+                alert("Enter valid product details.");
+                return;
+            }
+
+            let product = {
+                name: name,
+                price: price,
+                quantity: quantity
+            };
+
+            cart.push(product);
+            displayCart();
+
+            document.getElementById("productName").value = "";
+            document.getElementById("price").value = "";
+            document.getElementById("quantity").value = "";
+        }
+
+        function displayCart() {
+            let output = "";
+
+            cart.forEach(function(item) {
+                output += `
+                    <p>${item.name} - ₹${item.price}
+                    x ${item.quantity}</p>
+                `;
+            });
+
+            document.getElementById("cartItems").innerHTML = output;
+        }
+
+        function calculateTotal() {
+            let total = cart.reduce(function(sum, item) {
+                return sum + item.price * item.quantity;
+            }, 0);
+
+            let discount = 0;
+
+            if (total >= 50000)
+                discount = 20;
+            else if (total >= 30000)
+                discount = 15;
+            else if (total >= 10000)
+                discount = 10;
+
+            let finalAmount = total - (total * discount / 100);
+
+            document.getElementById("result").textContent =
+                `Total: ₹${total.toFixed(2)} | Discount: ${discount}% | Final: ₹${finalAmount.toFixed(2)}`;
+
+            // map()
+            let names = cart.map(item => item.name);
+
+            // filter()
+            let costlyItems = cart.filter(item => item.price >= 1000);
+
+            console.log("Product names:", names);
+            console.log("Costly products:", costlyItems);
+        }
+    </script>
+
+</body>
+</html>
