@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gym Admission Form</title>
+</head>
+<body>
+
+    <h2>Gym Admission Form</h2>
+
+    <form id="gymForm">
+
+        <input id="name" placeholder="Full Name"><br><br>
+        <input id="email" placeholder="Email"><br><br>
+        <input id="phone" placeholder="10-digit Phone"><br><br>
+        <input id="age" type="number" placeholder="Age"><br><br>
+
+        <select id="plan">
+            <option value="">Select Plan</option>
+            <option>Monthly</option>
+            <option>Quarterly</option>
+            <option>Yearly</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const phoneInput = document.getElementById("phone");
+        const ageInput = document.getElementById("age");
+        const planInput = document.getElementById("plan");
+
+        function checkName() {
+            return nameInput.value.trim().length >= 2;
+        }
+
+        function checkEmail() {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+        }
+
+        function checkPhone() {
+            return /^\d{10}$/.test(phoneInput.value);
+        }
+
+        function checkAge() {
+            let age = Number(ageInput.value);
+            return age >= 16 && age <= 70;
+        }
+
+        // Live validation
+        nameInput.addEventListener("input", function() {
+            nameInput.style.borderColor =
+                checkName() ? "green" : "red";
+        });
+
+        emailInput.addEventListener("input", function() {
+            emailInput.style.borderColor =
+                checkEmail() ? "green" : "red";
+        });
+
+        phoneInput.addEventListener("input", function() {
+            phoneInput.style.borderColor =
+                checkPhone() ? "green" : "red";
+        });
+
+        ageInput.addEventListener("input", function() {
+            ageInput.style.borderColor =
+                checkAge() ? "green" : "red";
+        });
+
+        planInput.addEventListener("change", function() {
+            planInput.style.borderColor =
+                planInput.value ? "green" : "red";
+        });
+
+        document.getElementById("gymForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                if (!checkName() || !checkEmail() ||
+                    !checkPhone() || !checkAge() ||
+                    planInput.value === "") {
+
+                    document.getElementById("message").textContent =
+                        "Please enter valid details in all fields.";
+
+                    alert("Please correct the form.");
+                    return;
+                }
+
+                document.getElementById("message").textContent =
+                    "Admission form submitted successfully!";
+            });
+    </script>
+
+</body>
+</html>
