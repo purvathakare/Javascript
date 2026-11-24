@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing Calculator</title>
+</head>
+<body>
+
+    <h2>Billing Calculator</h2>
+
+    <input id="customer" placeholder="Customer Name"><br><br>
+    <input id="product" placeholder="Product Name"><br><br>
+    <input type="number" id="price" placeholder="Price"><br><br>
+    <input type="number" id="quantity" placeholder="Quantity"><br><br>
+
+    <button onclick="calculateBill()">Generate Bill</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateBill() {
+            var customerName =
+                document.getElementById("customer").value;
+
+            let productName =
+                document.getElementById("product").value;
+
+            let price =
+                Number(document.getElementById("price").value);
+
+            let quantity =
+                Number(document.getElementById("quantity").value);
+
+            const GST = 18;
+
+            if (customerName.trim() === "" ||
+                productName.trim() === "" ||
+                price <= 0 || quantity <= 0) {
+                alert("Enter valid details.");
+                return;
+            }
+
+            let total = price * quantity;
+            let gstAmount = total * GST / 100;
+            let finalBill = total + gstAmount;
+
+            const bill = {
+                customerName,
+                productName,
+                total,
+                gstAmount,
+                finalBill
+            };
+
+            const {
+                customerName: name,
+                productName: item,
+                total: amount,
+                gstAmount: gst,
+                finalBill: finalAmount
+            } = bill;
+
+            document.getElementById("result").innerHTML = `
+                <h3>Bill Details</h3>
+                <p>Customer: ${name}</p>
+                <p>Product: ${item}</p>
+                <p>Total: ₹${amount.toFixed(2)}</p>
+                <p>GST (18%): ₹${gst.toFixed(2)}</p>
+                <h3>Final Bill: ₹${finalAmount.toFixed(2)}</h3>
+            `;
+
+            console.log(bill);
+        }
+    </script>
+
+</body>
+</html>
