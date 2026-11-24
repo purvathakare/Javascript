@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Grading System</title>
+</head>
+<body>
+
+    <h2>Student Grading System</h2>
+
+    <input id="studentName" placeholder="Enter Student Name"><br><br>
+    <input type="number" id="marks" placeholder="Enter Marks"><br><br>
+
+    <button onclick="calculateGrade()">Calculate Grade</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateGrade() {
+            let name =
+                document.getElementById("studentName").value.trim();
+
+            let marksText =
+                document.getElementById("marks").value;
+
+            if (name === "" || marksText === "") {
+                alert("Please enter name and marks.");
+                return;
+            }
+
+            let marks = Number(marksText);
+
+            if (marks < 0 || marks > 100) {
+                alert("Marks must be between 0 and 100.");
+                return;
+            }
+
+            let grade;
+
+            if (marks >= 90)
+                grade = "A+";
+            else if (marks >= 80)
+                grade = "A";
+            else if (marks >= 70)
+                grade = "B";
+            else if (marks >= 60)
+                grade = "C";
+            else if (marks >= 50)
+                grade = "D";
+            else
+                grade = "F (Fail)";
+
+            document.getElementById("result").innerHTML = `
+                <h3>Result</h3>
+                <p>Name: ${name}</p>
+                <p>Marks: ${marks}</p>
+                <p>Grade: ${grade}</p>
+            `;
+
+            console.log(name, marks, grade);
+        }
+    </script>
+
+</body>
+</html>
