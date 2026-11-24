@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Palindrome Checker</title>
+</head>
+<body>
+
+    <h2>Palindrome Checker</h2>
+
+    <input id="word" placeholder="Enter a word or sentence">
+    <button onclick="checkPalindrome()">Check</button>
+
+    <p id="result"></p>
+
+    <script>
+        // Global variable
+        let appName = "Palindrome Checker";
+
+        // Function declaration
+        function checkPalindrome() {
+            try {
+                let input =
+                    document.getElementById("word").value.trim();
+
+                if (input === "") {
+                    throw "Please enter a word.";
+                }
+
+                let text = input.toLowerCase().replace(/\s+/g, "");
+
+                // Function expression
+                const reverseString = function(str) {
+                    return str.split("").reverse().join("");
+                };
+
+                // Arrow function
+                const displayResult = (message) => {
+                    document.getElementById("result").textContent =
+                        message;
+                };
+
+                // Closure
+                function resultCounter() {
+                    let count = 0;
+
+                    return function() {
+                        count++;
+                        console.log("Checked:", count, "times");
+                    };
+                }
+
+                if (!window.checkCount) {
+                    window.checkCount = resultCounter();
+                }
+
+                window.checkCount();
+
+                let reversed = reverseString(text);
+
+                if (text === reversed) {
+                    displayResult("It is a palindrome.");
+                } else {
+                    displayResult("It is not a palindrome.");
+                }
+
+                console.log("Application:", appName);
+                console.log("Reversed:", reversed);
+
+            } catch (error) {
+                alert(error);
+            }
+        }
+    </script>
+
+</body>
+</html>
